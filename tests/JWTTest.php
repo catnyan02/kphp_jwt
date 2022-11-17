@@ -252,8 +252,7 @@ class JWTTest extends TestCase
 
     public function testRSEncodeDecode()
     {
-        $privKey = <<<EOD
------BEGIN RSA PRIVATE KEY-----
+        $privKey = '-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
 vuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t0tyazyZ8JXw+KgXTxldMPEL9
 5+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4ehde/zUxo6UvS7UrBQIDAQAB
@@ -267,17 +266,14 @@ k90OMepTjzSvlhjbfuPN1IdhqvSJTDychRwn1kIJ7LQZgQ8fVz9OCFZ/6qMCQGOb
 qaGwHmUK6xzpUbbacnYrIM6nLSkXgOAwv7XXCojvY614ILTK3iXiLBOxPu5Eu13k
 eUz9sHyD6vkgZzjtxXECQAkp4Xerf5TGfQXGXhxIX52yH+N2LtujCdkQZjXAsGdm
 B2zNzvrlgRmgBrklMTrMYgm1NPcW+bRLGcwgW2PTvNM=
------END RSA PRIVATE KEY-----
-EOD;
+-----END RSA PRIVATE KEY-----';
 
-        $pubKey = <<<EOD
------BEGIN PUBLIC KEY-----
+        $pubKey = '-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
 4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
 0tyazyZ8JXw+KgXTxldMPEL95+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4
 ehde/zUxo6UvS7UrBQIDAQAB
------END PUBLIC KEY-----
-EOD;
+-----END PUBLIC KEY-----';
 
         $msg = JWT::encode(['message' => 'abc'], $privKey, 'RS256');
         $decoded = JWT::decode($msg, $pubKey, 'RS256');
@@ -301,5 +297,25 @@ EOD;
         $jwt = JWT::encode($payload, $key, 'HS256');
         $decoded = JWT::decode($jwt, $key, 'HS256');
         $this->assertEquals($payload['foo'], $decoded['foo']);
+    }
+    public function testESEncodeDecode()
+    {
+        $privKey = '-----BEGIN EC PRIVATE KEY-----
+MIGkAgEBBDBQJuwafREZ1494Fm2MTVXuZbWXVAOwIAxGhyLdc3CChzi0FVXZq8e6
+65oR0Qq9Jv2gBwYFK4EEACKhZANiAAQWFddzIqZaROR1VtZhhTd20mqknQmYsZ+0
+R03NQQUQpJTkyWcuv8WNyd6zO9cCoQEzi94kX907/OEWTjhuH8QtdunT+ef1BpWJ
+W1Cm5O+m7b155/Ho99QypfQr74hLg1A=
+-----END EC PRIVATE KEY-----';
+
+        $pubKey = '-----BEGIN PUBLIC KEY-----
+MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEFhXXcyKmWkTkdVbWYYU3dtJqpJ0JmLGf
+tEdNzUEFEKSU5MlnLr/FjcneszvXAqEBM4veJF/dO/zhFk44bh/ELXbp0/nn9QaV
+iVtQpuTvpu29eefx6PfUMqX0K++IS4NQ
+-----END PUBLIC KEY-----';
+
+        $msg = JWT::encode(['message' => 'abc'], $privKey, 'ES384');
+        $decoded = JWT::decode($msg, $pubKey, 'ES384');
+        $expected = array('message' => 'abc');
+        $this->assertEquals($decoded, $expected);
     }
 }

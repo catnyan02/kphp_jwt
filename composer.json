@@ -1,5 +1,8 @@
 {
     "require-dev": {
         "phpunit/phpunit": "^9.5"
+    },
+    "require": {
+        "vkcom/kphp-polyfills": "^1.0"
     }
 }

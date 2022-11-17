@@ -4,8 +4,107 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d04a6a4216eec9684d7a430e94632a78",
-    "packages": [],
+    "content-hash": "ccd149efaf1a863fb7f91f547279e4bf",
+    "packages": [
+        {
+            "name": "rybakit/msgpack",
+            "version": "v0.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rybakit/msgpack.php.git",
+                "reference": "f3ad27e3e7eba2204e022ec175a981e6ccb97548"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/f3ad27e3e7eba2204e022ec175a981e6ccb97548",
+                "reference": "f3ad27e3e7eba2204e022ec175a981e6ccb97548",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.1|^8"
+            },
+            "require-dev": {
+                "ext-gmp": "*",
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "phpunit/phpunit": "^7.1|^8|^9"
+            },
+            "suggest": {
+                "ext-decimal": "For converting overflowed integers to Decimal objects",
+                "ext-gmp": "For converting overflowed integers to GMP objects"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MessagePack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eugene Leonovich",
+                    "email": "gen.work@gmail.com"
+                }
+            ],
+            "description": "A pure PHP implementation of the MessagePack serialization format.",
+            "keywords": [
+                "messagepack",
+                "msgpack",
+                "pure",
+                "streaming"
+            ],
+            "support": {
+                "issues": "https://github.com/rybakit/msgpack.php/issues",
+                "source": "https://github.com/rybakit/msgpack.php/tree/v0.7.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rybakit",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-12-18T21:14:07+00:00"
+        },
+        {
+            "name": "vkcom/kphp-polyfills",
+            "version": "v1.0.25",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VKCOM/kphp-polyfills.git",
+                "reference": "571cc4d305ff0d413e7e8114a41642366543a9a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VKCOM/kphp-polyfills/zipball/571cc4d305ff0d413e7e8114a41642366543a9a6",
+                "reference": "571cc4d305ff0d413e7e8114a41642366543a9a6",
+                "shasum": ""
+            },
+            "require": {
+                "rybakit/msgpack": "^0.7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "kphp_polyfills.php"
+                ],
+                "psr-4": {
+                    "KPHP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "PHP implementations of functions supported by KPHP natively",
+            "support": {
+                "issues": "https://github.com/VKCOM/kphp-polyfills/issues",
+                "source": "https://github.com/VKCOM/kphp-polyfills/tree/v1.0.25"
+            },
+            "time": "2022-08-16T11:21:49+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",

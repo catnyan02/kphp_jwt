@@ -1,18 +1,19 @@
 <?php
 
 namespace KPHP\JWT;
+require_once '../vendor/autoload.php';
 
 class JWT
 {
     public static array $supported_algs = [
-        'ES384' => ['openssl', 'sha384'],
-        'ES256' => ['openssl', 'sha256'],
+        'ES384' => ['openssl', OPENSSL_ALGO_SHA384],
+        'ES256' => ['openssl', OPENSSL_ALGO_SHA256],
         'HS256' => ['hash_hmac', 'sha256'],
         'HS384' => ['hash_hmac', 'sha384'],
         'HS512' => ['hash_hmac', 'sha512'],
-        'RS256' => ['openssl', 'sha256'],
-        'RS384' => ['openssl', 'sha384'],
-        'RS512' => ['openssl', 'sha512'],
+        'RS256' => ['openssl', OPENSSL_ALGO_SHA256],
+        'RS384' => ['openssl', OPENSSL_ALGO_SHA384],
+        'RS512' => ['openssl', OPENSSL_ALGO_SHA512],
     ];
 
     public static ?int $timestamp = null;
@@ -37,7 +38,7 @@ class JWT
 
     public static function encode(
         array $payload,
-        $key,
+              $key,
         string $alg,
         string $keyId = null,
         $head = null
@@ -312,10 +313,10 @@ class JWT
                     'OpenSSL error.'
                 );
             case 'hash_hmac':
-            default:
                 $hash = \hash_hmac($algorithm, $msg, $keyMaterial, true);
                 return self::constantTimeEquals($hash, $signature);
         }
+        throw new \DomainException('Algorithm not supported');
     }
 
     /**
@@ -352,9 +353,10 @@ class JWT
      * @param int $offset the offset of the data stream containing the object
      * to decode
      *
-     * @return tuple(int, string|null) the new offset and the decoded object
+     * @return tuple<int, string|null> the new offset and the decoded object
      */
-    private static function readDER(string $der, int $offset = 0)
+    private static function readDER(string $der, int $offset = 0): array
+        # TODO: no array return
     {
         $pos = $offset;
         $size = \strlen($der);
@@ -383,7 +385,7 @@ class JWT
             $data = null;
         }
 
-        return tuple($pos, $data);
+        return \tuple($pos, $data);
     }
 
     /**
@@ -472,39 +474,3 @@ class JWT
     }
 
 }
-
-$privateKey = '-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
-vuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t0tyazyZ8JXw+KgXTxldMPEL9
-5+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4ehde/zUxo6UvS7UrBQIDAQAB
-AoGAb/MXV46XxCFRxNuB8LyAtmLDgi/xRnTAlMHjSACddwkyKem8//8eZtw9fzxz
-bWZ/1/doQOuHBGYZU8aDzzj59FZ78dyzNFoF91hbvZKkg+6wGyd/LrGVEB+Xre0J
-Nil0GReM2AHDNZUYRv+HYJPIOrB0CRczLQsgFJ8K6aAD6F0CQQDzbpjYdx10qgK1
-cP59UHiHjPZYC0loEsk7s+hUmT3QHerAQJMZWC11Qrn2N+ybwwNblDKv+s5qgMQ5
-5tNoQ9IfAkEAxkyffU6ythpg/H0Ixe1I2rd0GbF05biIzO/i77Det3n4YsJVlDck
-ZkcvY3SK2iRIL4c9yY6hlIhs+K9wXTtGWwJBAO9Dskl48mO7woPR9uD22jDpNSwe
-k90OMepTjzSvlhjbfuPN1IdhqvSJTDychRwn1kIJ7LQZgQ8fVz9OCFZ/6qMCQGOb
-qaGwHmUK6xzpUbbacnYrIM6nLSkXgOAwv7XXCojvY614ILTK3iXiLBOxPu5Eu13k
-eUz9sHyD6vkgZzjtxXECQAkp4Xerf5TGfQXGXhxIX52yH+N2LtujCdkQZjXAsGdm
-B2zNzvrlgRmgBrklMTrMYgm1NPcW+bRLGcwgW2PTvNM=
------END RSA PRIVATE KEY-----';
-
-$publicKey = '-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8kGa1pSjbSYZVebtTRBLxBz5H
-4i2p/llLCrEeQhta5kaQu/RnvuER4W8oDH3+3iuIYW4VQAzyqFpwuzjkDI+17t5t
-0tyazyZ8JXw+KgXTxldMPEL95+qVhgXvwtihXC1c5oGbRlEDvDF6Sa53rcFVsYJ4
-ehde/zUxo6UvS7UrBQIDAQAB
------END PUBLIC KEY-----';
-
-$payload = [
-    'iss' => 'example.org',
-    'aud' => 'example.com',
-    'iat' => 1356999524,
-    'nbf' => 1357000000
-];
-
-$jwt = JWT::encode($payload, $privateKey, 'RS256');
-echo "Encode:\n" . print_r($jwt, true) . "\n";
-
-$decoded = JWT::decode($jwt, $publicKey, 'RS256');
-var_dump($decoded);
