@@ -1,8 +1,23 @@
 {
+    "name": "nyan/kphp_jwt",
+    "description": "JWT tokens for KPHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nastya Nesterenko"
+        }
+    ],
     "require-dev": {
         "phpunit/phpunit": "^9.5"
     },
     "require": {
+        "php": ">=7.4",
         "vkcom/kphp-polyfills": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "nyan\\kphp_jwt\\": "src"
+        }
     }
 }
