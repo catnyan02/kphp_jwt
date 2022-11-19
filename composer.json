@@ -1,5 +1,5 @@
 {
-    "name": "nyan/kphp_jwt",
+    "name": "nyan02/kphp_jwt",
     "description": "JWT tokens for KPHP",
     "type": "library",
     "license": "MIT",
