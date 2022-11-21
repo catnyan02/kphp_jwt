@@ -1,7 +1,6 @@
 <?php
 
 namespace KPHP\JWT;
-include_once '..\src\JWT.php';
 
 use ArrayObject;
 use DomainException;
