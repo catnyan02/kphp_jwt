@@ -4,7 +4,7 @@
 A simple library to encode and decode JSON Web Tokens (JWT) in PHP, conforming to RFC 7519.
 
 ## Installation
-
+```composer require nyan02/kphp_jwt:dev-master```
 
 ## Available features
 Class JWT has property **$supported_algs** that lists supported algorithms.
@@ -22,7 +22,8 @@ JWT::decode(string $jwt, string $key, string $alg): array
 
 ## Simple example with HS256 (hash_hmac)
 ```
- use Nyan\Kphp_jwt\JWT;
+ namespace nyan02\kphp_jwt;
+ include 'vendor/autoload.php';
 
  $key = 'example_key';
 
@@ -50,7 +51,8 @@ JWT::decode(string $jwt, string $key, string $alg): array
 
 ## Example with RS256 (openssl)
 ```
- use Nyan\Kphp_jwt\JWT;
+ namespace nyan02\kphp_jwt;
+ include 'vendor/autoload.php';
 
  $privateKey = '-----BEGIN RSA PRIVATE KEY-----
 MIICXAIBAAKBgQC8kGa1pSjbSYZVebtTRBLxBz5H4i2p/llLCrEeQhta5kaQu/Rn
@@ -91,7 +93,8 @@ ehde/zUxo6UvS7UrBQIDAQAB
 
 ## Example with ES384 (openssl)
 ```
- use Nyan\Kphp_jwt\JWT;
+ namespace nyan02\kphp_jwt;
+ include 'vendor/autoload.php';
 
  $privateKey = '-----BEGIN EC PRIVATE KEY-----
 MIGkAgEBBDBQJuwafREZ1494Fm2MTVXuZbWXVAOwIAxGhyLdc3CChzi0FVXZq8e6
