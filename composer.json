@@ -17,7 +17,10 @@
     },
     "autoload": {
         "psr-4": {
-            "nyan\\kphp_jwt\\": "src"
+            "nyan02\\kphp_jwt\\": "src",
+            "classmap" : [
+                "JWT.php"
+            ]
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nyan\Kphp_jwt\JWT;
+namespace nyan02\kphp_jwt;
 require_once '../vendor/autoload.php';
 
 class JWT
