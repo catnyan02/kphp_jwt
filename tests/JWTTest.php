@@ -1,6 +1,7 @@
 <?php
 
-namespace KPHP\JWT;
+namespace nyan02\kphp_jwt;
+include "../src/JWT.php";
 
 use ArrayObject;
 use DomainException;

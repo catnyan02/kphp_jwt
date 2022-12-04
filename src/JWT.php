@@ -2,14 +2,19 @@
 
 namespace nyan02\kphp_jwt;
 
+define('HMAC_ALGO_SHA256', 'sha256');
+define('HMAC_ALGO_SHA384', 'sha384');
+define('HMAC_ALGO_SHA512', 'sha512');
+
 class JWT
 {
+
     public static array $supported_algs = [
         'ES384' => ['openssl', OPENSSL_ALGO_SHA384],
         'ES256' => ['openssl', OPENSSL_ALGO_SHA256],
-        'HS256' => ['hash_hmac', 'sha256'],
-        'HS384' => ['hash_hmac', 'sha384'],
-        'HS512' => ['hash_hmac', 'sha512'],
+        'HS256' => ['hash_hmac', HMAC_ALGO_SHA256],
+        'HS384' => ['hash_hmac', HMAC_ALGO_SHA384],
+        'HS512' => ['hash_hmac', HMAC_ALGO_SHA512],
         'RS256' => ['openssl', OPENSSL_ALGO_SHA256],
         'RS384' => ['openssl', OPENSSL_ALGO_SHA384],
         'RS512' => ['openssl', OPENSSL_ALGO_SHA512],
@@ -39,7 +44,7 @@ class JWT
         array $payload,
               $key,
         string $alg,
-        string $keyId = null,
+        ?string $keyId = null,
         $head = null
     ): string {
         $header = ['typ' => 'JWT', 'alg' => $alg];
@@ -88,7 +93,7 @@ class JWT
         string $key,
         string $alg
 
-    ): array {
+    ){
         // Validate JWT
         $timestamp = \is_null(static::$timestamp) ? \time() : static::$timestamp;
 
@@ -256,7 +261,7 @@ class JWT
                 if (!\is_string($key)) {
                     throw new \InvalidArgumentException('key must be a string when using hmac');
                 }
-                return \hash_hmac($algorithm, $msg, $key, true);
+                return (string) \hash_hmac($algorithm, $msg, $key, true);
             case 'openssl':
                 $signature = '';
                 $success = \openssl_sign($msg, $signature, $key, $algorithm);
@@ -313,6 +318,9 @@ class JWT
                 );
             case 'hash_hmac':
                 $hash = \hash_hmac($algorithm, $msg, $keyMaterial, true);
+                if ($hash === false){
+                    return false;
+                }
                 return self::constantTimeEquals($hash, $signature);
         }
         throw new \DomainException('Algorithm not supported');
@@ -352,9 +360,9 @@ class JWT
      * @param int $offset the offset of the data stream containing the object
      * to decode
      *
-     * @return tuple<int, string|null> the new offset and the decoded object
+     * @return tuple<int, ?string> the new offset and the decoded object
      */
-    private static function readDER(string $der, int $offset = 0): array
+    private static function readDER(string $der, int $offset = 0)
         # TODO: no array return
     {
         $pos = $offset;
@@ -384,7 +392,7 @@ class JWT
             $data = null;
         }
 
-        return \tuple($pos, $data);
+        return tuple($pos, $data);
     }
 
     /**
@@ -467,7 +475,7 @@ class JWT
     private static function safeStrlen(string $str): int
     {
         if (\function_exists('mb_strlen')) {
-            return \mb_strlen($str, '8bit');
+            return (int) \mb_strlen($str, '8bit');
         }
         return \strlen($str);
     }

@@ -1,0 +1,55 @@
+@ok
+<?php
+require_once 'kphp_tester_include.php';
+include "JWT.php";
+
+$privateKey = '-----BEGIN RSA PRIVATE KEY-----
+MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC+ek4pJN/FxLuz
+KnCjOwPZ2pBa2Bjde3hg+jYsF3zxdZjya1e1QUUGcDdQ558ZpK+MMiTsTR+YVnhj
+nMiVK4EXecrBuDlotaK9jCQoa7uxYaq/vxSwQSa5nZ33bIKcXTvdN9DH6vi3di9V
+VFVwsoUZF6Pr+1Qa3QLsY/X9IbltCe+S6n9QJb8e1jN3DTN3tlNNl5xPjNgyt1Bw
+XCvOjC7+MJNUuyNZPn1zSMcvprYjUeqGYTcaCgxVX8unuVyjRJ/Ih2hK3RoAuuhp
+cZ52GzNfoUEWmobHt8I6ltRPtYlMmSu3B4zhQh98PiGemRXu8r/Gmv7ko4DlyoHM
+om7TIjrlAgMBAAECggEAAvXOoigPDDlG+31U28yOfkO9y5OhK0wAbm1lCyFgUTZV
+JqtRZSE7C+MRkQHQgKsFCWY8GaoHLCxn2ZB1s4/GBVHgu0r8JWrxOQXlB/XIqHSO
+nUVAco7IpcjTzCUVEI4IYKM97OVzcRJ2oNpbK5GyrNWnuAKjZ3l40qipCYKNKasf
+e/RMnHwJfkIrHorRtlekhA6PgQNCUYnjq9Q/5auLm7JTQyfSD86WIDaMsKCOQvB1
+5RdGm1IJ1FHTDfv9KQeAjgIONcuMNf8FcjWyuBEZlxBdfqim8axndzrriqcTGpgJ
+HKMhd1WrB7mJkvj5zHTol2xB2JkZJgN9P6vl0c67cQKBgQDrLHc4Ysxvv75D+Hy8
+JZBSOrHbTw5uR/N/lUotuEqy1IxrkebjAZ6XYngGtZWvnRpxKO2AswX+zmuTN0UL
+yzDebmd2tjtkltREAcFCHNG98Lap3VPSGmT/EJy9ZF4JxVsqsH9eTeXJvwa0sZQA
+ul0DsD2chbFoOg1b/Jz43DzXaQKBgQDPWI4Hg/70j0/kQaCdO/DA7e4IfhpLDUX2
+YK7HL+hv6U/2oH++PJE2K8qeP7EJqtultyQcTPbx6hKqWVG4BMbSMJ/TdMVmGgn4
+rMYe071q1dr+BRWKfnwTDzyhBJLAlek/UR83ogfqUF1uDe8lr5GTSQzCTBvCLab2
+hLSHQYi0HQKBgEPmYL2s+O3C5MJnOkxwZAz52WRCnR4GNC3AAtzUeuzLJYfhZlJg
+o1N+IL1/LCq6J2pIsNoZ1j9Nhg3JRWw0THXMVp8V2mweiEbiYtQd0gkPOQ4uUwc0
+i7iBKWAdXHFhxAK9Vuj5gMERIHSHWP4k0LpB5mgMyb4YFMdcVk4b+I0RAoGAQR4I
+jOexXFDdwEu0C21VsOGITfZ8f3GNtVCr0zaCgxL83/GL7MzMtfyOx6AtE2IrVSHt
+H040h8kBT6p5dZdacYx/xUL485Xd59Eq72eEJ1c+TWR/XV1XzgyM9+ydwgnSlOX/
+LdOfNMFEdlm971HyIBVjAmowlY0M0ILgx1GXgykCgYA4LimqyKlcvPIMRIou3VMu
+m4M11HxcPm58tiQYxJ9nWhKA2Ji3FWH1azNRePPAb8rI4wRcY49s/L3Uau27fg7i
+XDAIWuUErK5dsXxDSQ7xgMwMLt7gmu0JCbcEupV8TiGA7fm/o1M5NbOKRvkhXOWw
+sfz13d6LLEtn2RSOReYy/w==
+-----END RSA PRIVATE KEY-----';
+
+$publicKey = '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvnpOKSTfxcS7sypwozsD
+2dqQWtgY3Xt4YPo2LBd88XWY8mtXtUFFBnA3UOefGaSvjDIk7E0fmFZ4Y5zIlSuB
+F3nKwbg5aLWivYwkKGu7sWGqv78UsEEmuZ2d92yCnF073TfQx+r4t3YvVVRVcLKF
+GRej6/tUGt0C7GP1/SG5bQnvkup/UCW/HtYzdw0zd7ZTTZecT4zYMrdQcFwrzowu
+/jCTVLsjWT59c0jHL6a2I1HqhmE3GgoMVV/Lp7lco0SfyIdoSt0aALroaXGedhsz
+X6FBFpqGx7fCOpbUT7WJTJkrtweM4UIffD4hnpkV7vK/xpr+5KOA5cqBzKJu0yI6
+5QIDAQAB
+-----END PUBLIC KEY-----';
+
+$payload = [
+    'iss' => 'example.org',
+    'aud' => 'example.com',
+    'iat' => 1356999524,
+    'nbf' => 1357000000
+];
+
+$jwt = nyan02\kphp_jwt\JWT::encode($payload, $privateKey, 'RS384');
+$decoded = nyan02\kphp_jwt\JWT::decode($jwt, $publicKey, 'RS384');
+var_dump($decoded);
+
