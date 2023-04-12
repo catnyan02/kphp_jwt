@@ -4,7 +4,7 @@
 A simple library to encode and decode JSON Web Tokens (JWT) in PHP, conforming to RFC 7519.
 
 ## Installation
-```composer require nyan02/kphp_jwt:dev-master```
+```composer require nyan02/kphp_jwt```
 
 ## Available features
 Class JWT has property **$supported_algs** that lists supported algorithms.
